@@ -9,12 +9,16 @@
 
 ## 功能特性
 
-- 深色模式 Gradio 风格 UI
+- 深色模式 Gradio 风格 UI，毛玻璃效果
+- 多 API 提供商：Gitee AI、HF Z-Image Turbo、HF Qwen Image
 - 多种宽高比预设 (1:1, 16:9, 9:16, 4:3, 3:4 等)
 - 可调节推理步数和尺寸
+- 4x 图片放大 (RealESRGAN)
 - 实时生成进度与计时器
+- 悬浮工具栏：模糊、信息、下载、删除
 - 一键下载图片 (JPG)
-- API Key 浏览器持久化存储
+- API Key 浏览器加密存储 (AES-256-GCM)
+- 设置持久化到 localStorage
 - 响应式设计 (移动端 & 桌面端)
 
 ## 技术栈

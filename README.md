@@ -11,12 +11,16 @@ A modern Text-to-Image generation web application powered by Gitee AI API (z-ima
 
 ## Features
 
-- Dark mode Gradio-style UI
+- Dark mode Gradio-style UI with frosted glass effects
+- Multiple API providers: Gitee AI, HF Z-Image Turbo, HF Qwen Image
 - Multiple aspect ratio presets (1:1, 16:9, 9:16, 4:3, 3:4, etc.)
 - Adjustable inference steps and dimensions
+- 4x image upscaling via RealESRGAN
 - Real-time generation progress with timer
+- Floating toolbar with blur, info, download, delete actions
 - One-click image download (JPG)
-- API key persistence in browser
+- API key persistence in browser (AES-256-GCM encrypted)
+- Settings persistence in localStorage
 - Responsive design (mobile & desktop)
 
 ## Tech Stack
