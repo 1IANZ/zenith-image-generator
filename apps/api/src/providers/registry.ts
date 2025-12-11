@@ -5,12 +5,14 @@
 import type { ProviderType } from '@z-image/shared'
 import { giteeProvider } from './gitee'
 import { huggingfaceProvider } from './huggingface'
+import { modelscopeProvider } from './modelscope'
 import type { ImageProvider } from './types'
 
 /** Provider registry map */
 const providers: Record<string, ImageProvider> = {
   gitee: giteeProvider,
   huggingface: huggingfaceProvider,
+  modelscope: modelscopeProvider,
 }
 
 /** Get provider by ID */

@@ -3,7 +3,7 @@
  */
 
 /** Supported provider types */
-export type ProviderType = 'gitee' | 'huggingface'
+export type ProviderType = 'gitee' | 'huggingface' | 'modelscope'
 
 /** Provider configuration */
 export interface ProviderConfig {

@@ -6,8 +6,10 @@ import type { ProviderConfig } from '../types/provider'
 
 /** HuggingFace Spaces URLs */
 export const HF_SPACES = {
-  zImage: 'https://luca115-z-image-turbo.hf.space',
-  qwen: 'https://mcp-tools-qwen-image-fast.hf.space',
+  'z-image-turbo': 'https://luca115-z-image-turbo.hf.space',
+  'qwen-image-fast': 'https://mcp-tools-qwen-image-fast.hf.space',
+  'ovis-image': 'https://aidc-ai-ovis-image-7b.hf.space',
+  'flux-1-schnell': 'https://black-forest-labs-flux-1-schnell.hf.space',
   upscaler: 'https://tuan2308-upscaler.hf.space',
 } as const
 
@@ -25,7 +27,14 @@ export const PROVIDER_CONFIGS: Record<string, ProviderConfig> = {
     name: 'HuggingFace',
     requiresAuth: false,
     authHeader: 'X-HF-Token',
-    baseUrl: HF_SPACES.zImage,
+    baseUrl: HF_SPACES['z-image-turbo'],
+  },
+  modelscope: {
+    id: 'modelscope',
+    name: 'ModelScope',
+    requiresAuth: true,
+    authHeader: 'X-MS-Token',
+    baseUrl: 'https://api-inference.modelscope.cn/v1',
   },
 } as const
 

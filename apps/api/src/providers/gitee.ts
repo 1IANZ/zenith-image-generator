@@ -22,15 +22,21 @@ export class GiteeProvider implements ImageProvider {
       apiKey: request.authToken.trim(),
     })
 
+    const extraBody: Record<string, unknown> = {
+      negative_prompt: request.negativePrompt || '',
+      num_inference_steps: request.steps ?? 9,
+    }
+
+    if (request.guidanceScale !== undefined) {
+      extraBody.guidance_scale = request.guidanceScale
+    }
+
     const response = await client.images.generate({
       prompt: request.prompt,
       model: request.model || 'z-image-turbo',
       size: `${request.width}x${request.height}` as '1024x1024',
       // @ts-expect-error extra_body is supported by OpenAI SDK
-      extra_body: {
-        negative_prompt: request.negativePrompt || '',
-        num_inference_steps: request.steps ?? 9,
-      },
+      extra_body: extraBody,
     })
 
     const imageData = response.data?.[0]

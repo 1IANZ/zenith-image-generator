@@ -53,18 +53,40 @@ async function callGradioApi(baseUrl: string, endpoint: string, data: unknown[],
   return extractCompleteEventData(text) as unknown[]
 }
 
+/** Model-specific Gradio configurations */
+const MODEL_CONFIGS: Record<string, { endpoint: string; buildData: (r: ProviderGenerateRequest, seed: number) => unknown[] }> = {
+  'z-image-turbo': {
+    endpoint: 'generate_image',
+    buildData: (r, seed) => [r.prompt, r.height, r.width, r.steps ?? 9, seed, false],
+  },
+  'qwen-image-fast': {
+    endpoint: 'generate_image',
+    buildData: (r, seed) => [r.prompt, seed, true, '1:1', 3, r.steps ?? 8],
+  },
+  'ovis-image': {
+    endpoint: 'generate',
+    buildData: (r, seed) => [r.prompt, r.height, r.width, seed, r.steps ?? 24, 4],
+  },
+  'flux-1-schnell': {
+    endpoint: 'infer',
+    buildData: (r, seed) => [r.prompt, seed, false, r.width, r.height, r.steps ?? 8],
+  },
+}
+
 export class HuggingFaceProvider implements ImageProvider {
   readonly id = 'huggingface'
   readonly name = 'HuggingFace'
 
   async generate(request: ProviderGenerateRequest): Promise<GenerateSuccessResponse> {
     const seed = request.seed ?? Math.floor(Math.random() * 2147483647)
-    const baseUrl = request.model === 'qwen' ? HF_SPACES.qwen : HF_SPACES.zImage
+    const modelId = request.model || 'z-image-turbo'
+    const baseUrl = HF_SPACES[modelId as keyof typeof HF_SPACES] || HF_SPACES['z-image-turbo']
+    const config = MODEL_CONFIGS[modelId] || MODEL_CONFIGS['z-image-turbo']
 
     const data = await callGradioApi(
       baseUrl,
-      'generate_image',
-      [request.prompt, request.height, request.width, 8, seed, false],
+      config.endpoint,
+      config.buildData(request, seed),
       request.authToken
     )
 
@@ -76,7 +98,7 @@ export class HuggingFaceProvider implements ImageProvider {
 
     return {
       url: imageUrl,
-      seed: result[1] as number,
+      seed: typeof result[1] === 'number' ? result[1] : seed,
     }
   }
 }
